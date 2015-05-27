@@ -18,18 +18,11 @@ sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
 sub SCALAR {
     my $self = shift;
     my $str = '';
-    for my $K (sort keys %$self) {
-        my $V = $self->{$K};
-        if (ref $V eq 'HASH') {
-            $V = join('; ', map {
-                my $val = (ref $V->{$_} eq 'ARRAY')
-                    ? _rotate( $V->{$_} )
-                    : $V->{$_};
-                join( ': ', $_, $val || '' );
-            } sort keys %$V) . ';';
-        }
-        $V = _rotate($V) if ref($V) eq 'ARRAY';
-        $str .= qq($K="$V" ) unless $V =~ /^$/;
+    for my $key (sort keys %$self) {
+        my $val = defined($self->{$key}) ? $self->{$key} : '';
+        $val  = _stringify( $val )  if ref $val eq 'HASH';
+        $val  = _rotate( $val )     if ref $val eq 'ARRAY';
+        $str .= qq($key="$val" )    unless $val =~ /^$/;
     }
     chop $str;
     return $str;
@@ -40,6 +33,24 @@ sub _rotate {
     my $next = shift @$ref;
     push @$ref, $next;
     return $next;
+}
+
+sub _stringify {
+    my $hash = shift;
+
+    return join('; ', map { my $val;
+
+        if (ref $hash->{$_} eq 'ARRAY') {
+            $val = _rotate( $hash->{$_} );
+        } elsif (ref $hash->{$_} eq 'HASH') {
+            ($val) = keys %{ $hash->{$_} };
+        } else {
+            $val = $_;
+        }
+
+        join( ': ', $_, $val);
+
+    } sort keys %$hash) . ';';
 }
 
 1;

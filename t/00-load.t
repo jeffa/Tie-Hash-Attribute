@@ -25,6 +25,7 @@ is $attr{foo}, "new",   "new foo key correct";
 
 $attr{table}{bgcolor} = [qw(red blue green yellow)];
 $attr{td} = { style => [ 'color: red', 'color: black', ] };
+$attr{badval} = undef;
 
 is scalar %attr,
     q(bar="foo" foo="new" table="bgcolor: red;" td="style: color: red;"),
