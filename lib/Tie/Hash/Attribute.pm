@@ -67,22 +67,34 @@ Tie::Hash::Attribute - print hash as scalar and emit HTML attributes.
   tie my %tag, 'Tie::Hash::Attribute';
   $tag{style} = 'color: red';
   print scalar %tag, "\n";
+    # style="color: red"
 
   delete $tag{style};
   $tag{style}{color} = 'red';
   $tag{style}{align} = 'right';
   print scalar %tag, "\n";
+    # style="align: right; color: red;"
 
   $tag{style}{align} = [qw(left right)];
   $tag{style}{color} = [qw(red blue green)];
   print scalar %tag, "\n" for 1 .. 4;
+    # style="align: left; color: red;"',
+    # style="align: right; color: blue;"',
+    # style="align: left; color: green;"',
+    # style="align: right; color: red;"',
 
 =head1 DESCRIPTION
 
 This module will translate the keys and values into HTML tag attributes.
 You just need to provide the tags.
 
-Simple attributes
+Hash values can be scalars, arrays, hashes or hashes of hashes. Going "too deep"
+will gracefully stop at the second nested key:
+
+  $tag{a}{b}{c} = 'd';
+  print scalar %tag, "\n";
+
+  # yields a="b: c;" 
 
 =head1 AUTHOR
 
