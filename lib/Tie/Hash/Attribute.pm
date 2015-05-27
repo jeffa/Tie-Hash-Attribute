@@ -1,21 +1,55 @@
 package Tie::Hash::Attribute;
-
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-
-=head1 NAME
-
-Tie::Hash::Attribute - The great new Tie::Hash::Attribute!
-
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
 our $VERSION = '0.01';
 
+our @ISA = 'Tie::Hash';
+
+use Data::Dumper;
+
+sub TIEHASH     { bless {}, shift }
+sub FETCH       { $_[0]{$_[1]} }
+sub STORE       { $_[0]{$_[1]} = $_[2] }
+sub EXISTS      { exists $_[0]{$_[1]} }
+sub FIRSTKEY    { keys %{$_[0]} }
+sub NEXTKEY     { each %{$_[0]} } 
+sub DELETE      { delete $_[0]{$_[1]} }
+sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
+
+sub SCALAR {
+    my $self = shift;
+    my $str = '';
+    for my $K (sort keys %$self) {
+        my $V = $self->{$K};
+        if (ref $V eq 'HASH') {
+            $V = join('; ', map {
+                my $attr = $_;
+                my $val = (ref $V->{$_} eq 'ARRAY')
+                    ? _rotate( $V->{$_} )
+                    : $V->{$_};
+                join( ': ', $attr, $val || '' );
+            } sort keys %$V) . ';';
+        }
+        $V = _rotate($V) if ref($V) eq 'ARRAY';
+        $str .= qq( $K="$V") unless $V =~ /^$/;
+    }
+    return $str;
+}
+
+sub _rotate {
+    my $ref  = shift;
+    my $next = shift @$ref;
+    push @$ref, $next;
+    return $next;
+}
+
+1;
+
+__END__
+=head1 NAME
+
+Tie::Hash::Attribute - 
 
 =head1 SYNOPSIS
 
@@ -28,27 +62,6 @@ Perhaps a little code snippet.
     my $foo = Tie::Hash::Attribute->new();
     ...
 
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
-
 =head1 AUTHOR
 
 Jeff Anderson, C<< <jeffa at cpan.org> >>
@@ -58,9 +71,6 @@ Jeff Anderson, C<< <jeffa at cpan.org> >>
 Please report any bugs or feature requests to C<bug-tie-hash-attribute at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Hash-Attribute>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-
-
 
 =head1 SUPPORT
 
@@ -91,9 +101,7 @@ L<http://search.cpan.org/dist/Tie-Hash-Attribute/>
 
 =back
 
-
 =head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -134,8 +142,4 @@ YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR
 CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
 =cut
-
-1; # End of Tie::Hash::Attribute
