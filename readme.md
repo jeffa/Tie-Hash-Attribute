@@ -7,9 +7,9 @@ Synopsis
 ```perl
 use Tie::Hash::Attribute;
 
-tie my %tr, 'Tie::Hash::Attribute';
-%tr = (tr => { style => ['color: red', 'color: black'] });
-print "<tr", scalar %tr, ">";
+tie my %attr, 'Tie::Hash::Attribute';
+%attr = ( style => ['color: red', 'color: black'] );
+print "<td", scalar %td, ">\n" for 1 .. 10;
 ```
 
 Installation

@@ -55,9 +55,9 @@ Tie::Hash::Attribute - print hash as scalar and emit HTML attributes.
 
   use Tie::Hash::Attribute;
 
-  tie my %tr, 'Tie::Hash::Attribute';
-  %tr = (tr => { style => ['color: red', 'color: black'] });
-  print "<tr", scalar %tr, ">";
+  tie my %attr, 'Tie::Hash::Attribute';
+  %attr = ( style => ['color: red', 'color: black'] );
+  print "<td", scalar %td, ">\n" for 1 .. 10;
 
 =head1 DESCRIPTION
 
