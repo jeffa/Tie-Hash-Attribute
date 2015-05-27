@@ -2,40 +2,38 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 13;
+use Test::More tests => 7;
 
 use_ok 'Tie::Hash::Attribute';
 
-tie my %attr, 'Tie::Hash::Attribute';
-$attr{foo} = "bar";
-$attr{bar} = "foo";
+tie my %tag, 'Tie::Hash::Attribute';
 
-is $attr{foo}, "bar",   "foo key correct";
-is $attr{bar}, "foo",   "bar key correct";
+$tag{style} = 'color: red';
+is scalar %tag,
+    'style="color: red"',
+    "one key, value with colon correct";
 
-is exists $attr{foo}, 1,    "foo key exists";
-is exists $attr{bar}, 1,    "bar key exists";
-is exists $attr{baz}, '',   "baz key exists";
+delete $tag{style};
+$tag{style}{color} = 'red';
+$tag{style}{align} = 'right';
+is scalar %tag,
+    'style="align: right; color: red;"',
+    "multi key, values without colons correct";
 
-is delete $attr{foo}, "bar",    "foo key deleted";
-is exists $attr{foo}, '',       "foo key no longer exists";
+$tag{style}{align} = [qw(left right)];
+$tag{style}{color} = [qw(red blue green)];
+is scalar %tag, 
+    'style="align: left; color: red;"',
+    "multi key, multi values 1st access correct";
 
-$attr{foo} = "new";
-is $attr{foo}, "new",   "new foo key correct";
+is scalar %tag, 
+    'style="align: right; color: blue;"',
+    "multi key, multi values 2nd access correct";
 
-$attr{table}{bgcolor} = [qw(red blue green yellow)];
-$attr{td} = { style => [ 'color: red', 'color: black', ] };
-$attr{badval} = undef;
+is scalar %tag, 
+    'style="align: left; color: green;"',
+    "multi key, multi values 3rd access correct";
 
-is scalar %attr,
-    q(bar="foo" foo="new" table="bgcolor: red;" td="style: color: red;"),
-    "correct values for 1st rotate";
-is scalar %attr,
-    q(bar="foo" foo="new" table="bgcolor: blue;" td="style: color: black;"),
-    "correct values for 2nd rotate";
-is scalar %attr,
-    q(bar="foo" foo="new" table="bgcolor: green;" td="style: color: red;"),
-    "correct values for 3rd rotate";
-is scalar %attr,
-    q(bar="foo" foo="new" table="bgcolor: yellow;" td="style: color: black;"),
-    "correct values for 4th rotate";
+is scalar %tag, 
+    'style="align: right; color: red;"',
+    "multi key, multi values 4th access correct";

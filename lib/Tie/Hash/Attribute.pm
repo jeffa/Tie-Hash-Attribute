@@ -45,7 +45,7 @@ sub _stringify {
         } elsif (ref $hash->{$_} eq 'HASH') {
             ($val) = keys %{ $hash->{$_} };
         } else {
-            $val = $_;
+            $val = $hash->{$_};
         }
 
         join( ': ', $_, $val);
@@ -64,14 +64,25 @@ Tie::Hash::Attribute - print hash as scalar and emit HTML attributes.
 
   use Tie::Hash::Attribute;
 
-  tie my %attr, 'Tie::Hash::Attribute';
-  %attr = ( style => ['color: red', 'color: black'] );
-  print "<td", scalar %td, ">\n" for 1 .. 10;
+  tie my %tag, 'Tie::Hash::Attribute';
+  $tag{style} = 'color: red';
+  print scalar %tag, "\n";
+
+  delete $tag{style};
+  $tag{style}{color} = 'red';
+  $tag{style}{align} = 'right';
+  print scalar %tag, "\n";
+
+  $tag{style}{align} = [qw(left right)];
+  $tag{style}{color} = [qw(red blue green)];
+  print scalar %tag, "\n" for 1 .. 4;
 
 =head1 DESCRIPTION
 
 This module will translate the keys and values into HTML tag attributes.
 You just need to provide the tags.
+
+Simple attributes
 
 =head1 AUTHOR
 
