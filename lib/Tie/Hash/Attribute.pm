@@ -49,18 +49,25 @@ sub _rotate {
 __END__
 =head1 NAME
 
-Tie::Hash::Attribute - 
+Tie::Hash::Attribute - print hash as scalar and emit HTML attributes.
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+  use Tie::Hash::Attribute;
 
-Perhaps a little code snippet.
+  tie my %attr, 'Tie::Hash::Attribute';
 
-    use Tie::Hash::Attribute;
+  %attr = (
+      table => { cellspacing => 0, cellpadding => 0 },
+      td => { style => ['color: red', 'color: black'] },
+  );
 
-    my $foo = Tie::Hash::Attribute->new();
-    ...
+  print scalar %attr;
+
+=head1 DESCRIPTION
+
+This module will translate the keys and values into HTML tag attributes.
+You just need to provide the tags.
 
 =head1 AUTHOR
 

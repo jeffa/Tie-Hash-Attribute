@@ -38,7 +38,3 @@ is scalar %attr,
 is scalar %attr,
     q( bar="foo" foo="new" table="bgcolor: yellow;" td="style: color: black;"),
     "correct values for 4th rotate";
-
-tie my %body, 'Tie::Hash::Attribute';
-$body{bgcolor} = "blue";
-print "<body", scalar %body, ">", "</body>\n";
