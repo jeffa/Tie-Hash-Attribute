@@ -6,11 +6,13 @@ our $VERSION = '0.01';
 
 our @ISA = 'Tie::Hash';
 
-sub TIEHASH     { bless {}, shift }
+use Data::Dumper;
+
+sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
 sub FETCH       { $_[0]{$_[1]} }
 sub STORE       { $_[0]{$_[1]} = $_[2] }
 sub EXISTS      { exists $_[0]{$_[1]} }
-sub FIRSTKEY    { keys %{$_[0]} }
+sub FIRSTKEY    { keys %{$_[0]}; each %{$_[0]} }
 sub NEXTKEY     { each %{$_[0]} } 
 sub DELETE      { delete $_[0]{$_[1]} }
 sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
@@ -29,8 +31,9 @@ sub SCALAR {
             } sort keys %$V) . ';';
         }
         $V = _rotate($V) if ref($V) eq 'ARRAY';
-        $str .= qq( $K="$V") unless $V =~ /^$/;
+        $str .= qq($K="$V" ) unless $V =~ /^$/;
     }
+    chop $str;
     return $str;
 }
 

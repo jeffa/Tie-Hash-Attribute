@@ -27,14 +27,14 @@ $attr{table}{bgcolor} = [qw(red blue green yellow)];
 $attr{td} = { style => [ 'color: red', 'color: black', ] };
 
 is scalar %attr,
-    q( bar="foo" foo="new" table="bgcolor: red;" td="style: color: red;"),
+    q(bar="foo" foo="new" table="bgcolor: red;" td="style: color: red;"),
     "correct values for 1st rotate";
 is scalar %attr,
-    q( bar="foo" foo="new" table="bgcolor: blue;" td="style: color: black;"),
+    q(bar="foo" foo="new" table="bgcolor: blue;" td="style: color: black;"),
     "correct values for 2nd rotate";
 is scalar %attr,
-    q( bar="foo" foo="new" table="bgcolor: green;" td="style: color: red;"),
+    q(bar="foo" foo="new" table="bgcolor: green;" td="style: color: red;"),
     "correct values for 3rd rotate";
 is scalar %attr,
-    q( bar="foo" foo="new" table="bgcolor: yellow;" td="style: color: black;"),
+    q(bar="foo" foo="new" table="bgcolor: yellow;" td="style: color: black;"),
     "correct values for 4th rotate";
