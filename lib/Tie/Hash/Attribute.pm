@@ -6,8 +6,6 @@ our $VERSION = '0.01';
 
 our @ISA = 'Tie::Hash';
 
-use Data::Dumper;
-
 sub TIEHASH     { bless {}, shift }
 sub FETCH       { $_[0]{$_[1]} }
 sub STORE       { $_[0]{$_[1]} = $_[2] }
@@ -24,11 +22,10 @@ sub SCALAR {
         my $V = $self->{$K};
         if (ref $V eq 'HASH') {
             $V = join('; ', map {
-                my $attr = $_;
                 my $val = (ref $V->{$_} eq 'ARRAY')
                     ? _rotate( $V->{$_} )
                     : $V->{$_};
-                join( ': ', $attr, $val || '' );
+                join( ': ', $_, $val || '' );
             } sort keys %$V) . ';';
         }
         $V = _rotate($V) if ref($V) eq 'ARRAY';
