@@ -123,15 +123,43 @@ Or access the entire hash as a scalar:
 
   print scalar %hash;
 
+You can use this to to aide in the creation of HTML tags:
+
+  print '<table>';
+  for my $row (@rows) {
+      printf '<tr%s>', scalar %tr;
+      for my $col (@$row) {
+          printf '<td%s>%s</td>', scalar %td, $col;
+      }
+      print '</tr>';
+  }
+
+The decision on which style to apply to a row is deferred to
+the tied hash.  Just assign an array reference to the key and
+each value will be rotated.
+
+  %tr_tag = ( class => [qw( odd even )] );
+
 =head1 BUGS AND LIMITATIONS
 
-Going "too deep" will gracefully stop at the second nested key,
-which will use the third as its value:
+Assignment stops at the second nested key, which will use the
+third as its value:
 
   $tag{foo}{1st}{2nd}{3rd} = '4th';
   print $tag{-foo}, "\n";
 
   # yields 1st="2nd: 3rd;"
+
+This is an intended limitation. However, there are other limitations
+that will be corrected over a short time:
+
+=over 4
+
+=item * Need to apply correct encoding to keys.
+
+=item * Need to detect when " is in a value.
+
+=back
 
 Please report any bugs or feature requests to either
 
@@ -164,6 +192,14 @@ You can also look for information at:
 =item * CPAN Ratings L<http://cpanratings.perl.org/d/Tie-Hash-Attribute>
 
 =item * Search CPAN L<http://search.cpan.org/dist/Tie-Hash-Attribute/>
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<http://www.w3.org/TR/html5/syntax.html#attributes-0>
 
 =back
 
