@@ -1,6 +1,6 @@
 Revision history for Tie-Hash-Attribute
 
-0.03    
+0.03    - added SCALAR back to interface (like 0.01 + 0.02)
 
 0.02    
         - Changed interface: can now access first level of keys by

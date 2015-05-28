@@ -55,7 +55,7 @@ perldoc command.
 ```
 perldoc Tie::Hash::Attribute
 ```
-You can also find documentation at [metaCPAN](https://metacpan.org/pod/Spreadsheet::HTML).
+You can also find documentation at [metaCPAN](https://metacpan.org/pod/Tie::Hash::Attribute).
 
 License and Copyright
 ---------------------
