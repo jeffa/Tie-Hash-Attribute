@@ -29,9 +29,8 @@ sub _mk_str {
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
-        $str .= qq($key="$val" )    unless $val =~ /^$/;
+        $str .= qq( $key="$val")    unless $val =~ /^$/;
     }
-    chop $str;
     return $str;
 }
 
