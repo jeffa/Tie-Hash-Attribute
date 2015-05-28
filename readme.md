@@ -1,15 +1,36 @@
 Tie-Hash-Attribute
 ==================
-Print hash as scalar and emit HTML attributes.
+Print hash values as rotating HTML attributes.
 
 Synopsis
 --------
 ```perl
 use Tie::Hash::Attribute;
 
-tie my %attr, 'Tie::Hash::Attribute';
-%attr = ( style => ['color: red', 'color: black'] );
-print "<td", scalar %td, ">\n" for 1 .. 10;
+tie my %tag, 'Tie::Hash::Attribute';
+%tag = (
+    table => { border => 0 },
+    tr => {
+        style => { color => 'red', align => 'right' },
+    },
+    td => {
+        style => {
+            align => [qw( left right )],
+            color => [qw( red blue green )],
+    },
+};
+ 
+print $tag{-table};
+  # border: 0
+
+print $tag{-tr};
+  # style="align: right; color: red;"
+
+print $tag{-td} for 1 .. 4;
+  # style="align: left; color: red;"',
+  # style="align: right; color: blue;"',
+  # style="align: left; color: green;"',
+  # style="align: right; color: red;"',
 ```
 
 Installation
