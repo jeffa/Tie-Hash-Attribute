@@ -2,24 +2,27 @@ package Tie::Hash::Attribute;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our @ISA = 'Tie::Hash';
 
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
-sub FETCH       { $_[0]{$_[1]} }
 sub STORE       { $_[0]{$_[1]} = $_[2] }
+sub SCALAR      { scalar %{$_[0]} }
 sub EXISTS      { exists $_[0]{$_[1]} }
 sub FIRSTKEY    { each %{$_[0]} }
 sub NEXTKEY     { each %{$_[0]} } 
 sub DELETE      { delete $_[0]{$_[1]} }
 sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
 
-sub SCALAR {
-    my $self = shift;
+sub FETCH {
+    my ($self,$arg) = @_;
+    return $self->{$arg} unless substr($arg,0,1) eq '-';
+    $arg =~ s/^-//;
+
     my $str = '';
-    for my $key (sort keys %$self) {
-        my $val = defined($self->{$key}) ? $self->{$key} : '';
+    for my $key (sort keys %{$self->{$arg}}) {
+        my $val = defined($self->{$arg}{$key}) ? $self->{$arg}{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
         $str .= qq($key="$val" )    unless $val =~ /^$/;
@@ -58,26 +61,32 @@ sub _stringify {
 __END__
 =head1 NAME
 
-Tie::Hash::Attribute - print hash as scalar and emit HTML attributes.
+Tie::Hash::Attribute - Print hash values as rotating HTML attributes.
 
 =head1 SYNOPSIS
 
   use Tie::Hash::Attribute;
 
   tie my %tag, 'Tie::Hash::Attribute';
-  $tag{style} = 'color: red';
-  print scalar %tag, "\n";
-    # style="color: red"
+  %tag = (
+      table => { border => 0 },
+      tr => {
+          style => { color => 'red', align => 'right' },
+      },
+      td => {
+          style => {
+              align => [qw( left right )],
+              color => [qw( red blue green )],
+      },
+  };
+ 
+  print $tag{-table};
+    # border: 0
 
-  delete $tag{style};
-  $tag{style}{color} = 'red';
-  $tag{style}{align} = 'right';
-  print scalar %tag, "\n";
+  print $tag{-tr};
     # style="align: right; color: red;"
 
-  $tag{style}{align} = [qw(left right)];
-  $tag{style}{color} = [qw(red blue green)];
-  print scalar %tag, "\n" for 1 .. 4;
+  print $tag{-td} for 1 .. 4;
     # style="align: left; color: red;"',
     # style="align: right; color: blue;"',
     # style="align: left; color: green;"',
@@ -89,22 +98,28 @@ This module will translate the keys and values into HTML tag attributes.
 You just need to provide the tags.
 
 Hash values can be scalars, arrays, hashes or hashes of hashes. Going "too deep"
-will gracefully stop at the second nested key:
+will gracefully stop at the second nested key, which will use the third as its value:
 
-  $tag{a}{b}{c} = 'd';
-  print scalar %tag, "\n";
+  $tag{foo}{1st}{2nd}{3rd} = '4th';
+  print $tag{-foo}, "\n";
 
-  # yields a="b: c;" 
+  # yields 1st="2nd: 3rd;"
 
-=head1 AUTHOR
+=head1 BUGS AND LIMITATIONS
 
-Jeff Anderson, C<< <jeffa at cpan.org> >>
+Please report any bugs or feature requests to either
 
-=head1 BUGS
+=over 4
 
-Please report any bugs or feature requests to C<bug-tie-hash-attribute at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Hash-Attribute>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+=item * Email: C<bug-spreadsheet-html at rt.cpan.org>
+
+=item * Web: L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Spreadsheet-HTML>
+
+=back
+
+=head1 GITHUB
+
+The Github project is L<https://github.com/jeffa/Tie-Hash-Attribute>
 
 =head1 SUPPORT
 
@@ -112,30 +127,23 @@ You can find documentation for this module with the perldoc command.
 
     perldoc Tie::Hash::Attribute
 
-
 You can also look for information at:
 
 =over 4
 
-=item * RT: CPAN's request tracker (report bugs here)
+=item * RT: CPAN's request tracker (report bugs here) L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Tie-Hash-Attribute>
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Tie-Hash-Attribute>
+=item * AnnoCPAN: Annotated CPAN documentation L<http://annocpan.org/dist/Tie-Hash-Attribute>
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * CPAN Ratings L<http://cpanratings.perl.org/d/Tie-Hash-Attribute>
 
-L<http://annocpan.org/dist/Tie-Hash-Attribute>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Tie-Hash-Attribute>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Tie-Hash-Attribute/>
+=item * Search CPAN L<http://search.cpan.org/dist/Tie-Hash-Attribute/>
 
 =back
 
-=head1 ACKNOWLEDGEMENTS
+=head1 AUTHOR
+
+Jeff Anderson, C<< <jeffa at cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
