@@ -45,7 +45,7 @@ sub _rotate {
 sub _stringify {
     my $hash = shift;
 
-    return join('; ', map { my $val;
+    my @vals = map { my $val;
 
         if (ref $hash->{$_} eq 'ARRAY') {
             $val = _rotate( $hash->{$_} );
@@ -57,7 +57,9 @@ sub _stringify {
 
         join( ': ', $_, $val);
 
-    } sort keys %$hash) . ';';
+    } sort keys %$hash;
+
+    return join( '; ', @vals ) . (@vals > 1 ? ';' : '');
 }
 
 1;

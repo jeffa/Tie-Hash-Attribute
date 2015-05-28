@@ -2,7 +2,7 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 use_ok 'Tie::Hash::Attribute';
 
@@ -27,7 +27,7 @@ is $tag{-td}, 'style="align: left; color: red;"',                               
 is $tag{-td}, 'style="align: right; color: blue;"',                             "correct attributes rotating vals 4";
 
 %tag = ( style => { align => 'left', color => [qw(red green)] } );
+is scalar %tag, 'style="align: left; color: red;"',                             "scalar emits all keys and values";
 
-is scalar %tag,
-    'style="align: left; color: red;"',
-    "scalar emits all keys and values";
+$tag{th}{style}{color} = ['#010101','#020202','#030303'];
+is $tag{-th}, 'style="color: #010101"',                                         "no trailing semi-colon when one sub attr";
