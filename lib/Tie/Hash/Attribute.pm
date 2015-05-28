@@ -49,7 +49,7 @@ sub _stringify {
         if (ref $hash->{$_} eq 'ARRAY') {
             $val = _rotate( $hash->{$_} );
         } elsif (ref $hash->{$_} eq 'HASH') {
-            ($val) = keys %{ $hash->{$_} };
+            ($val) = sort keys %{ $hash->{$_} };
         } else {
             $val = $hash->{$_};
         }
@@ -149,8 +149,10 @@ third as its value:
 
   # yields 1st="2nd: 3rd;"
 
-This is an intended limitation. However, there are other limitations
-that will be corrected over a short time:
+This is an intended limitation. If there are other keys in the
+second nested hash, then the first key in alphabetical order wins.
+
+There are other limitations that will be corrected over a short time:
 
 =over 4
 

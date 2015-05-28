@@ -2,7 +2,7 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 12;
+use Test::More tests => 18;
 
 use_ok 'Tie::Hash::Attribute';
 
@@ -34,4 +34,17 @@ is $tag{-th}, ' style="color: #010101"',                                        
 
 %tag = ();
 is sprintf( '<th%s>', $tag{-th} ), '<th>',                                      "empty string when hash is empty";
+
+%tag = ();
+$tag{one}{two}{three}{four} = 'five';
+is $tag{-one}, ' two="three: four"',                                            "deepness check on key";
+is scalar %tag, ' one="two: three"',                                            "deepness check on scalar";
+
+$tag{one}{three}{four}{five} = 'six';
+is $tag{-one}, ' three="four: five" two="three: four"',                         "deepness check on key after another added";
+is scalar %tag, ' one="three: four; two: three;"',                              "deepness check on scalar after another key added";
+
+$tag{one}{two}{four}{five} = 'six';
+is $tag{-one}, ' three="four: five" two="four: five; three: four;"',            "deepness check on sub key";
+is scalar %tag, ' one="three: four; two: four;"',                               "deepness check on scalar with sub keys";
 
