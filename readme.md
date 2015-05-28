@@ -31,6 +31,12 @@ print $tag{-td} for 1 .. 4;
   # style="align: right; color: blue;"',
   # style="align: left; color: green;"',
   # style="align: right; color: red;"',
+
+# or emit all attributes at once
+tie my %tr_tag, 'Tie::Hash::Attribute';
+%tr_tag = ( style => { color => [qw(red blue green)] } );
+print scalar %tr_tag;
+  # style="align: right; color: red;"
 ```
 
 Installation

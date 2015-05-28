@@ -98,20 +98,40 @@ Tie::Hash::Attribute - Print hash values as rotating HTML attributes.
     # style="align: left; color: green;"',
     # style="align: right; color: red;"',
 
+  # or emit all attributes at once
+  tie my %tr_tag, 'Tie::Hash::Attribute';
+  %tr_tag = ( style => { color => [qw(red blue green)] } );
+  print scalar %tr_tag;
+    # style="align: right; color: red;"
+
 =head1 DESCRIPTION
 
 This module will translate the keys and values into HTML tag attributes.
 You just need to provide the tags.
 
-Hash values can be scalars, arrays, hashes or hashes of hashes. Going "too deep"
-will gracefully stop at the second nested key, which will use the third as its value:
+Hash values can be scalars, arrays, hashes or hashes of hashes.
+
+To emit values as an HTML attribute string, fetch the key with
+a dash prepended to it:
+
+  %hash = ( foo => 1, bar => 2, baz => 3);
+
+  print $hash{foo};     # returns original value
+  print $hash{-foo};    # returns value as HTML attribute string
+
+Or access the entire hash as a scalar:
+
+  print scalar %hash;
+
+=head1 BUGS AND LIMITATIONS
+
+Going "too deep" will gracefully stop at the second nested key,
+which will use the third as its value:
 
   $tag{foo}{1st}{2nd}{3rd} = '4th';
   print $tag{-foo}, "\n";
 
   # yields 1st="2nd: 3rd;"
-
-=head1 BUGS AND LIMITATIONS
 
 Please report any bugs or feature requests to either
 
