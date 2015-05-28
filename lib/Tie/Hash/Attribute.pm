@@ -8,7 +8,7 @@ our @ISA = 'Tie::Hash';
 
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
 sub STORE       { $_[0]{$_[1]} = $_[2] }
-sub SCALAR      { scalar %{$_[0]} }
+sub SCALAR      { _mk_str($_[0]) }
 sub EXISTS      { exists $_[0]{$_[1]} }
 sub FIRSTKEY    { each %{$_[0]} }
 sub NEXTKEY     { each %{$_[0]} } 
@@ -19,10 +19,14 @@ sub FETCH {
     my ($self,$arg) = @_;
     return $self->{$arg} unless substr($arg,0,1) eq '-';
     $arg =~ s/^-//;
+    return _mk_str( $self->{$arg} );
+}
 
+sub _mk_str {
+    my $hash = shift;
     my $str = '';
-    for my $key (sort keys %{$self->{$arg}}) {
-        my $val = defined($self->{$arg}{$key}) ? $self->{$arg}{$key} : '';
+    for my $key (sort keys %$hash) {
+        my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
         $str .= qq($key="$val" )    unless $val =~ /^$/;

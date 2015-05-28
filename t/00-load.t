@@ -2,7 +2,7 @@
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 use_ok 'Tie::Hash::Attribute';
 
@@ -25,3 +25,9 @@ is $tag{-td}, 'style="align: left; color: blue;"',                              
 is $tag{-td}, 'style="align: right; color: green;"',                            "correct attributes rotating vals 2";
 is $tag{-td}, 'style="align: left; color: red;"',                               "correct attributes rotating vals 3";
 is $tag{-td}, 'style="align: right; color: blue;"',                             "correct attributes rotating vals 4";
+
+%tag = ( style => { align => 'left', color => [qw(red green)] } );
+
+is scalar %tag,
+    'style="align: left; color: red;"',
+    "scalar emits all keys and values";
