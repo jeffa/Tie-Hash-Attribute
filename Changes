@@ -1,5 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
+0.03    
+
 0.02    
         - Changed interface: can now access first level of keys by
             pre-pending a dash to the key to be emitted as attributes

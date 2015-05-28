@@ -53,7 +53,7 @@ Support and Documentation
 After installing, you can find documentation for this module with the
 perldoc command.
 ```
-perldoc Spreadsheet::HTML
+perldoc Tie::Hash::Attribute
 ```
 You can also find documentation at [metaCPAN](https://metacpan.org/pod/Spreadsheet::HTML).
 

@@ -25,9 +25,3 @@ is $tag{-td}, 'style="align: left; color: blue;"',                              
 is $tag{-td}, 'style="align: right; color: green;"',                            "correct attributes rotating vals 2";
 is $tag{-td}, 'style="align: left; color: red;"',                               "correct attributes rotating vals 3";
 is $tag{-td}, 'style="align: right; color: blue;"',                             "correct attributes rotating vals 4";
-
-untie %tag;
-tie %tag, 'Tie::Hash::Attribute';
-
-$tag{a}{1}{2}{3} = '4';
-print $tag{-a}, $/;
