@@ -1,6 +1,8 @@
 Revision history for Tie-Hash-Attribute
 
-0.04    -
+0.04    - prepending space to attribute string
+        - sorting the deepest level hash keys for consistency 
+        - omitting semi-colon in attribute string when possible
 
 0.03    - added SCALAR back to interface (like 0.01 + 0.02)
 
