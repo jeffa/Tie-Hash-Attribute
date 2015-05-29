@@ -166,9 +166,9 @@ Please report any bugs or feature requests to either
 
 =over 4
 
-=item * Email: C<bug-spreadsheet-html at rt.cpan.org>
+=item * Email: C<bug-tie-hash-attribute at rt.cpan.org>
 
-=item * Web: L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Spreadsheet-HTML>
+=item * Web: L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Hash-Attribute>
 
 =back
 
