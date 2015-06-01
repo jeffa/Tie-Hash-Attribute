@@ -3,11 +3,12 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 our $VERSION = '0.05';
-
 our @ISA = 'Tie::Hash';
 
+use HTML::Entities;
+
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
-sub STORE       { $_[0]{$_[1]} = $_[2] }
+sub STORE       { $_[0]{lc$_[1]}=$_[2] }
 sub SCALAR      { _mk_str($_[0]) }
 sub EXISTS      { exists $_[0]{$_[1]} }
 sub FIRSTKEY    { each %{$_[0]} }
@@ -16,7 +17,8 @@ sub DELETE      { delete $_[0]{$_[1]} }
 sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
 
 sub FETCH {
-    my ($self,$arg) = @_;
+    my $self = shift;
+    my $arg  = lc shift;
     return $self->{$arg} unless substr($arg,0,1) eq '-';
     $arg =~ s/^-//;
     return _mk_str( $self->{$arg} );
@@ -29,9 +31,17 @@ sub _mk_str {
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
-        $str .= qq( $key="$val")    unless $val =~ /^$/;
+        $val  = encode_entities( $val, '"' );
+        $str .= sprintf ' %s="%s"', _scrub( $key ), $val;
     }
     return $str;
+}
+
+sub _scrub {
+    my $val = shift;
+    return '' unless defined $val;
+    $val = encode_entities( $val, q("'>/=) );
+    return encode_entities( $val, '^\n\x20-\x25\x27-\x7e' );
 }
 
 sub _rotate {
@@ -139,6 +149,36 @@ each value will be rotated.
 
   %tr_tag = ( class => [qw( odd even )] );
 
+=head1 REQUIRES
+
+=over 4
+
+=item * L<HTML::Entities>
+
+Used to ensure key names and values do not break certain HTML5 Syntax rules:
+
+=over 8
+
+=item * no case-insenstive matches for attribute names in start tag
+
+=item * keys: HTML encode control chars and the following: " ' > / =
+
+=item * values: HTML encode the " char
+
+=back 
+
+As such all attributes values are enclosed in double quotes, not single quotes.
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * L<http://www.w3.org/TR/html5/syntax.html#attributes-0>
+
+=back
+
 =head1 BUGS AND LIMITATIONS
 
 Assignment stops at the second nested key, which will use the
@@ -151,16 +191,6 @@ third as its value:
 
 This is an intended limitation. If there are other keys in the
 second nested hash, then the first key in alphabetical order wins.
-
-There are other limitations that will be corrected over a short time:
-
-=over 4
-
-=item * Need to apply correct encoding to keys.
-
-=item * Need to detect when " is in a value.
-
-=back
 
 Please report any bugs or feature requests to either
 
@@ -193,14 +223,6 @@ You can also look for information at:
 =item * CPAN Ratings L<http://cpanratings.perl.org/d/Tie-Hash-Attribute>
 
 =item * Search CPAN L<http://search.cpan.org/dist/Tie-Hash-Attribute/>
-
-=back
-
-=head1 SEE ALSO
-
-=over 4
-
-=item * L<http://www.w3.org/TR/html5/syntax.html#attributes-0>
 
 =back
 

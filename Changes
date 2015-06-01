@@ -1,14 +1,19 @@
 Revision history for Tie-Hash-Attribute
 
-0.05    -
+0.05
+        - implemented encoding for keys and values
 
-0.04    - prepending space to attribute string
+0.04
+        - prepending space to attribute string
         - sorting the deepest level hash keys for consistency 
         - omitting semi-colon in attribute string when possible
 
-0.03    - added SCALAR back to interface (like 0.01 + 0.02)
+0.03
+        - added SCALAR back to interface (like 0.01 + 0.02)
 
-0.02    - Changed interface: can now access first level of keys by
+0.02
+        - Changed interface: can now access first level of keys by
             pre-pending a dash to the key to be emitted as attributes
 
-0.01    - First version, released on an unsuspecting world.
+0.01
+        - First version, released on an unsuspecting world.
