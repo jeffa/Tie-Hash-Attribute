@@ -31,17 +31,21 @@ sub _mk_str {
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
-        $val  = encode_entities( $val, '"' );
-        $str .= sprintf ' %s="%s"', _scrub( $key ), $val;
+        $str .= sprintf ' %s="%s"', _key( $key ), _val( $val );
     }
     return $str;
 }
 
-sub _scrub {
+sub _key {
+    my $key = shift;
+    return '' unless defined $key;
+    $key = encode_entities( $key, q("'>/=) );
+    return encode_entities( $key, '^\n\x20-\x25\x27-\x7e' );
+}
+sub _val {
     my $val = shift;
-    return '' unless defined $val;
-    $val = encode_entities( $val, q("'>/=) );
-    return encode_entities( $val, '^\n\x20-\x25\x27-\x7e' );
+    $val = '' if $val =~ /^\s+$/;
+    return encode_entities( $val, '"' );
 }
 
 sub _rotate {
