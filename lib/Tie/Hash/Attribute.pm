@@ -190,6 +190,8 @@ As such all attributes values are enclosed in double quotes, not single quotes.
 
 =item * L<http://www.w3.org/TR/html5/syntax.html#attributes-0>
 
+=item * L<http://www.w3.org/TR/html-markup/syntax.html#syntax-attributes>
+
 =back
 
 =head1 BUGS AND LIMITATIONS
