@@ -1,5 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
+0.06
+
 0.05
         - attribute keys are case-insesitive
         - encoding for keys and values via HTML::Entities
