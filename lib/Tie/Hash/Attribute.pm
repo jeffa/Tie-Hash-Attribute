@@ -8,7 +8,7 @@ our @ISA = 'Tie::Hash';
 use HTML::Entities;
 
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
-sub STORE       { $_[0]{lc$_[1]}=$_[2] }
+sub STORE       { $_[0]{$_[1]}=$_[2] }
 sub SCALAR      { _mk_str($_[0]) }
 sub EXISTS      { exists $_[0]{$_[1]} }
 sub FIRSTKEY    { each %{$_[0]} }
@@ -18,7 +18,7 @@ sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
 
 sub FETCH {
     my $self = shift;
-    my $arg  = lc shift;
+    my $arg  = shift;
     return $self->{$arg} unless substr($arg,0,1) eq '-';
     $arg =~ s/^-//;
     return _mk_str( $self->{$arg} );
@@ -27,7 +27,9 @@ sub FETCH {
 sub _mk_str {
     my $hash = shift;
     my $str = '';
+    my %seen;
     for my $key (sort keys %$hash) {
+        next if $seen{lc$key}++;
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';

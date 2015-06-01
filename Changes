@@ -1,6 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
 0.05
+        - attribute keys are case-insesitive
         - implemented encoding for keys and values
 
 0.04
