@@ -2,7 +2,7 @@ package Tie::Hash::Attribute;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 our @ISA = 'Tie::Hash';
 
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
