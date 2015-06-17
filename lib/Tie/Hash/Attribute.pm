@@ -5,8 +5,6 @@ use warnings FATAL => 'all';
 our $VERSION = '0.06';
 our @ISA = 'Tie::Hash';
 
-use HTML::Entities;
-
 sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
 sub STORE       { $_[0]{$_[1]}=$_[2] }
 sub SCALAR      { _mk_str($_[0]) }
@@ -41,13 +39,15 @@ sub _mk_str {
 sub _key {
     my $key = shift;
     return '' unless defined $key;
-    $key = encode_entities( $key, q("'>/=) );
-    return encode_entities( $key, '^\n\x20-\x25\x27-\x7e' );
+    $key =~ s/\s//g;
+    $key =~ s/["'>=\/]//g;
+    return $key;
 }
 sub _val {
     my $val = shift;
     $val = '' if $val =~ /^\s+$/;
-    return encode_entities( $val, '"' );
+    $val =~ s/"//g;
+    return $val;
 }
 
 sub _rotate {
@@ -162,25 +162,16 @@ This prevents the client from having to check for the potential
 of no attributes, which would leave tags with trailing space
 inside the start tag: <foo ></foo>
 
-=head1 REQUIRES
+As such all attributes values are enclosed in double quotes, not single quotes.
+Additional rules for keys and values:
 
 =over 4
 
-=item * L<HTML::Entities>
-
-Used to ensure key names and values do not break certain HTML5 Syntax rules:
-
-=over 8
-
 =item * no case-insenstive matches for attribute names in start tag
 
-=item * keys: HTML encode control chars and the following: " ' > / =
+=item * remove any occurance from keys: " ' > / = and spaces
 
-=item * values: HTML encode the " char
-
-=back 
-
-As such all attributes values are enclosed in double quotes, not single quotes.
+=item * remove any occurance from values: "
 
 =back
 

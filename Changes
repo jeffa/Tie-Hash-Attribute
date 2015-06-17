@@ -1,22 +1,24 @@
 Revision history for Tie-Hash-Attribute
 
 0.06
+    - removed dependency HTML::Entities
+    - now scrubbing key/vals instead of encoding (faster)
 
 0.05
-        - attribute keys are case-insesitive
-        - encoding for keys and values via HTML::Entities
+    - attribute keys are case-insesitive
+    - encoding for keys and values via HTML::Entities
 
 0.04
-        - prepending space to attribute string
-        - sorting the deepest level hash keys for consistency 
-        - omitting semi-colon in attribute string when possible
+    - prepending space to attribute string
+    - sorting the deepest level hash keys for consistency 
+    - omitting semi-colon in attribute string when possible
 
 0.03
-        - added SCALAR back to interface (like 0.01 + 0.02)
+    - added SCALAR back to interface (like 0.01 + 0.02)
 
 0.02
-        - Changed interface: can now access first level of keys by
-            pre-pending a dash to the key to be emitted as attributes
+    - Changed interface: can now access first level of keys by
+        pre-pending a dash to the key to be emitted as attributes
 
 0.01
-        - First version, released on an unsuspecting world.
+    - First version, released on an unsuspecting world.
