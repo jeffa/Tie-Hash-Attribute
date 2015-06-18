@@ -82,7 +82,7 @@ sub _stringify {
 __END__
 =head1 NAME
 
-Tie::Hash::Attribute - Print hash contents as rotating HTML attributes.
+Tie::Hash::Attribute - Just another HTML attribute generator.
 
 =head1 SYNOPSIS
 
