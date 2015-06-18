@@ -1,6 +1,6 @@
 Tie-Hash-Attribute
 ==================
-Print hash values as rotating HTML attributes.
+Print hash contents as rotating HTML attributes.
 
 Synopsis
 --------
