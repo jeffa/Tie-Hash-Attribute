@@ -12,7 +12,7 @@ sub EXISTS      { exists $_[0]{$_[1]} }
 sub FIRSTKEY    { each %{$_[0]} }
 sub NEXTKEY     { each %{$_[0]} } 
 sub DELETE      { delete $_[0]{$_[1]} }
-sub CLEAR       { delete $_[0]{$_} for keys %{$_[0]} }
+sub CLEAR       { %{$_[0]} = () }
 
 sub FETCH {
     my $self = shift;
