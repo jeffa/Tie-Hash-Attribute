@@ -121,8 +121,8 @@ Tie::Hash::Attribute - Just another HTML attribute generator.
 
 =head1 DESCRIPTION
 
-This module will translate the keys and values into HTML tag attributes.
-You just need to provide the tags.
+This module will translate nested hash keys and values into HTML
+tag attributes that can have ther values automatically rotated.
 
 Hash values can be scalars, arrays, hashes or hashes of hashes.
 
@@ -132,7 +132,7 @@ a dash prepended to it:
   %hash = ( foo => 1, bar => 2, baz => 3);
 
   print $hash{foo};     # returns original value
-  print $hash{-foo};    # returns value as HTML attribute string
+  print $hash{-foo};    # returns key/value as HTML attribute string
 
 Or access the entire hash as a scalar:
 
