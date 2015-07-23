@@ -20,6 +20,15 @@ WriteMakefile(
     PREREQ_PM => {
         'HTML::Entities' => 0,
     },
+    (! eval { ExtUtils::MakeMaker->VERSION(6.46) } ? () :
+        (META_ADD => {
+            resources => {
+                homepage   => 'https://github.com/jeffa/Tie-Hash-Attribute',
+                repository => 'https://github.com/jeffa/Tie-Hash-Attribute.git',
+                bugtracker => 'https://github.com/jeffa/Tie-Hash-Attribute/issues',
+            },
+        })
+    ),
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Tie-Hash-Attribute-*' },
 );
