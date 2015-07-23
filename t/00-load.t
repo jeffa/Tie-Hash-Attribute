@@ -6,10 +6,10 @@ use Test::More tests => 18;
 
 use_ok 'Tie::Hash::Attribute';
 
-tie my %tag, 'Tie::Hash::Attribute';
+tie my %tag, 'Tie::Hash::Attribute', sort => 'alpha';
 %tag = map {($_ => undef)} qw( table tr td );
 
-is_deeply \%tag, { table => undef, tr => undef, td => undef },                 "looks like a hash";
+is_deeply \%tag, { table => undef, tr => undef, td => undef },                  "looks like a hash";
 
 $tag{table}{$_} = 0 for qw( border cellpadding cellspacing );
 is_deeply $tag{table}, { border => 0, cellpadding => 0, cellspacing => 0 },     "looks like a hash";

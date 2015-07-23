@@ -5,7 +5,10 @@ use warnings FATAL => 'all';
 our $VERSION = '0.08';
 our @ISA = 'Tie::Hash';
 
-sub TIEHASH     { bless {@_[1..@_-1]}, $_[0] }
+eval "use Tie::IxHash";
+our $NO_IXHASH = $@;
+our $ALPHA_SORT = 0;
+
 sub STORE       { $_[0]{$_[1]}=$_[2] }
 sub SCALAR      { _mk_str($_[0]) }
 sub EXISTS      { exists $_[0]{$_[1]} }
@@ -13,6 +16,20 @@ sub FIRSTKEY    { each %{$_[0]} }
 sub NEXTKEY     { each %{$_[0]} } 
 sub DELETE      { delete $_[0]{$_[1]} }
 sub CLEAR       { %{$_[0]} = () }
+
+sub TIEHASH {
+    my $class = shift;
+    my %hash  = @_;
+    if (defined $hash{sort}) {
+        if ($hash{sort} eq 'insert') {
+            tie( %hash, 'Tie::IxHash',  %hash );
+        } elsif ($hash{sort} eq 'alpha') {
+            $ALPHA_SORT = 1;
+        }
+        delete $hash{sort};
+    }
+    return bless { %hash }, $class;
+}
 
 sub FETCH {
     my $self = shift;
@@ -26,7 +43,8 @@ sub _mk_str {
     my $hash = shift;
     my $str = '';
     my %seen;
-    for my $key (sort keys %$hash) {
+    my @keys = $ALPHA_SORT ? sort keys %$hash : keys %$hash;
+    for my $key (@keys) {
         next if $seen{lc$key}++;
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
         $val  = _stringify( $val )  if ref $val eq 'HASH';

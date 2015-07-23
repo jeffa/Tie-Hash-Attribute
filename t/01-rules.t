@@ -7,7 +7,7 @@ use Test::More tests => 6;
 
 use Tie::Hash::Attribute;
 
-tie my %tag, 'Tie::Hash::Attribute';
+tie my %tag, 'Tie::Hash::Attribute', sort => 'alpha';
 
 $tag{foo} = { bar => 'baz' };
 $tag{Foo} = { baz => 'bar' };
