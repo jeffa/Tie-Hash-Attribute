@@ -1,8 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
 0.08
-    - ability to use natural, alpha sorted or insertion hash insertion order
-        (soft dependecy Tie::IxHash)
+    - attributes no are no longer automatically sorted
 
 0.07
     - faster CLEAR implementation

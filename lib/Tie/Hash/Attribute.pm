@@ -5,8 +5,6 @@ use warnings FATAL => 'all';
 our $VERSION = '0.08';
 our @ISA = 'Tie::Hash';
 
-eval "use Tie::IxHash";
-our $NO_IXHASH = $@;
 our $ALPHA_SORT = 0;
 
 sub STORE       { $_[0]{$_[1]}=$_[2] }
@@ -19,16 +17,11 @@ sub CLEAR       { %{$_[0]} = () }
 
 sub TIEHASH {
     my $class = shift;
-    my %hash  = @_;
-    if (defined $hash{sort}) {
-        if ($hash{sort} eq 'insert') {
-            tie( %hash, 'Tie::IxHash',  %hash );
-        } elsif ($hash{sort} eq 'alpha') {
-            $ALPHA_SORT = 1;
-        }
-        delete $hash{sort};
+    my %args  = @_;
+    if (defined $args{sort} and $args{sort} eq 'alpha') {
+        $ALPHA_SORT = 1;
     }
-    return bless { %hash }, $class;
+    return bless {}, $class;
 }
 
 sub FETCH {
