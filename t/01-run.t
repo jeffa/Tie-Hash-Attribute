@@ -6,7 +6,7 @@ use Test::More tests => 17;
 
 use Tie::Hash::Attribute;
 
-tie my %tag, 'Tie::Hash::Attribute', sort => 'alpha';
+tie my %tag, 'Tie::Hash::Attribute', sorted => 1;
 %tag = map {($_ => undef)} qw( table tr td );
 
 is_deeply \%tag, { table => undef, tr => undef, td => undef },                  "looks like a hash";

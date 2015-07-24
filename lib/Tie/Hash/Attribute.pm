@@ -5,7 +5,7 @@ use warnings FATAL => 'all';
 our $VERSION = '0.08';
 our @ISA = 'Tie::Hash';
 
-our $ALPHA_SORT = 0;
+our $ATTR_SORT = 0;
 
 sub STORE       { $_[0]{$_[1]}=$_[2] }
 sub SCALAR      { _mk_str($_[0]) }
@@ -18,9 +18,7 @@ sub CLEAR       { %{$_[0]} = () }
 sub TIEHASH {
     my $class = shift;
     my %args  = @_;
-    if (defined $args{sort} and $args{sort} eq 'alpha') {
-        $ALPHA_SORT = 1;
-    }
+    $ATTR_SORT = 1 if defined $args{sorted};
     return bless {}, $class;
 }
 
@@ -36,7 +34,7 @@ sub _mk_str {
     my $hash = shift;
     my $str = '';
     my %seen;
-    my @keys = $ALPHA_SORT ? sort keys %$hash : keys %$hash;
+    my @keys = $ATTR_SORT ? sort keys %$hash : keys %$hash;
     for my $key (@keys) {
         next if $seen{lc$key}++;
         my $val = defined($hash->{$key}) ? $hash->{$key} : '';
