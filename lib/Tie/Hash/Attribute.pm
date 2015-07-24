@@ -184,6 +184,20 @@ Additional rules for keys and values:
 
 =back
 
+Since the internal storage for this package is a hash, ordering of
+attribute names (for consistancy) can be achieved by specifying a
+true value for the parameter C<sorted> like so:
+
+  tie my %tag, 'Tie::Hash::Attribute', sorted => 1;
+  %hash = ( foo => 1, bar => 2, baz => 3);
+  print scalar %hash;
+    # bar="2" baz="3" foo="1"
+
+The author wishes to somehow utilize Tie::IxHash to allow the client
+to force desired order, but tieing at tied hash is tricky. Most of time
+attribute order is not important, but it can be in a handful of cases.
+If you run into such a case, please alert the author via a bug report.
+
 =head1 SEE ALSO
 
 =over 4
