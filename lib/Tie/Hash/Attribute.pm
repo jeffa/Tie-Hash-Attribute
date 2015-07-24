@@ -184,6 +184,8 @@ Additional rules for keys and values:
 
 =back
 
+=head1 ORDERING
+
 Since the internal storage for this package is a hash, ordering of
 attribute names (for consistancy) can be achieved by specifying a
 true value for the parameter C<sorted> like so:
@@ -194,7 +196,7 @@ true value for the parameter C<sorted> like so:
     # bar="2" baz="3" foo="1"
 
 The author wishes to somehow utilize Tie::IxHash to allow the client
-to force desired order, but tieing at tied hash is tricky. Most of time
+to force desired order, but tieing a tied hash is tricky. Most of time
 attribute order is not important, but it can be in a handful of cases.
 If you run into such a case, please alert the author via a bug report.
 
