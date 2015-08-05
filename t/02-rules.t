@@ -1,6 +1,5 @@
 #!perl -T
 # see http://www.w3.org/TR/html-markup/syntax.html#syntax-attributes
-use 5.006;
 use strict;
 use warnings FATAL => 'all';
 use Test::More tests => 6;
