@@ -69,6 +69,7 @@ sub _rotate {
 sub _stringify {
     my $hash = shift;
 
+    my @keys = $ATTR_SORT ? sort keys %$hash : keys %$hash;
     my @vals = map { my $val;
 
         if (ref $hash->{$_} eq 'ARRAY') {
@@ -81,7 +82,7 @@ sub _stringify {
 
         join( ': ', $_, $val);
 
-    } sort keys %$hash;
+    } @keys;
 
     return join( '; ', @vals ) . (@vals > 1 ? ';' : '');
 }
