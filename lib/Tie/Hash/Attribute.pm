@@ -75,7 +75,7 @@ sub _stringify {
         if (ref $hash->{$_} eq 'ARRAY') {
             $val = _rotate( $hash->{$_} );
         } elsif (ref $hash->{$_} eq 'HASH') {
-            ($val) = sort keys %{ $hash->{$_} };
+            ($val) = $ATTR_SORT ? sort keys %{ $hash->{$_} } : keys %{ $hash->{$_} };
         } else {
             $val = $hash->{$_};
         }
