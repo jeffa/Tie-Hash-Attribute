@@ -1,5 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
+1.02
+
 1.01
     - removed hard coded sort from _stringify()
 

@@ -2,7 +2,7 @@ package Tie::Hash::Attribute;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 our @ISA = 'Tie::Hash';
 
 our $ATTR_SORT = 0;
