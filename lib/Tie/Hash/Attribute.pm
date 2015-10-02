@@ -141,15 +141,15 @@ a dash prepended to it:
 
   %hash = ( foo => 1, bar => 2, baz => 3);
 
-  print $hash{foo};     # returns original value
-  print $hash{-foo};    # returns key/value as HTML attribute string
+  print $hash{foo};     # returns 1
+  print $hash{-foo};    # returns foo="1"
 
 Or access the entire hash as a scalar:
 
   print scalar %hash;
     # foo="1" bar="2" baz="3"
 
-You can use this to to aide in the creation of HTML tags:
+This can be used to aide in the creation of HTML tags:
 
   print '<table>';
   for my $row (@rows) {
@@ -162,8 +162,8 @@ You can use this to to aide in the creation of HTML tags:
   print '/<table>';
 
 The decision on which style to apply to a row is deferred to
-the tied hash.  Just assign an array reference to the key and
-each value will be rotated.
+the tied hash. Assign an array reference to the key and each
+value will be rotated.
 
   %tr_tag = ( class => [qw( odd even )] );
 
