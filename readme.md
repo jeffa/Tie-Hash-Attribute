@@ -1,6 +1,6 @@
 Tie-Hash-Attribute
 ==================
-Just another HTML attribute generator.
+Just another HTML attribute generator. [![CPAN version](https://badge.fury.io/pl/Tie-Hash-Attribute.svg)](https://badge.fury.io/pl/Tie-Hash-Attribute)
 
 Synopsis
 --------
