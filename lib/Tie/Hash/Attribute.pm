@@ -38,9 +38,9 @@ sub _mk_str {
     for my $key (@keys) {
         next if $seen{lc$key}++;
         my $val = $hash->{$key};
-        next unless defined $val;
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
+        next unless defined $val;
         $str .= sprintf ' %s="%s"', _key( $key ), _val( $val );
     }
     return $str;
@@ -53,6 +53,7 @@ sub _key {
     $key =~ s/["'>=\/]//g;
     return $key;
 }
+
 sub _val {
     my $val = shift;
     $val = '' if $val =~ /^\s+$/;
@@ -177,6 +178,8 @@ As such all attributes values are enclosed in double quotes, not single quotes.
 Additional rules for keys and values:
 
 =over 4
+
+=item * any attribute with a value of undef will be skipped
 
 =item * no case-insenstive matches for attribute names in start tag
 
