@@ -37,7 +37,8 @@ sub _mk_str {
     my @keys = $ATTR_SORT ? sort keys %$hash : keys %$hash;
     for my $key (@keys) {
         next if $seen{lc$key}++;
-        my $val = defined($hash->{$key}) ? $hash->{$key} : '';
+        my $val = $hash->{$key};
+        next unless defined $val;
         $val  = _stringify( $val )  if ref $val eq 'HASH';
         $val  = _rotate( $val )     if ref $val eq 'ARRAY';
         $str .= sprintf ' %s="%s"', _key( $key ), _val( $val );

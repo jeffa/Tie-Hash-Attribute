@@ -2,7 +2,7 @@
 # see http://www.w3.org/TR/html-markup/syntax.html#syntax-attributes
 use strict;
 use warnings FATAL => 'all';
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use Tie::Hash::Attribute;
 
@@ -26,3 +26,6 @@ is $tag{-foo}, ' bar=""',                               "values of all spaces sq
 
 $tag{code} = { title => 'U+003C LESS-THAN SIGN' };
 is $tag{-code}, ' title="U+003C LESS-THAN SIGN"',       "correct value for W3C example";
+
+$tag{empty} = { foo => 0, bar => undef, baz => '' };
+is $tag{-empty}, ' baz="" foo="0"',                     "keys with undef values are skipped";
