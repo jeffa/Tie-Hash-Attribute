@@ -1,5 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
+1.03
+
 1.02
     - keys with values of undef are skipped
 
