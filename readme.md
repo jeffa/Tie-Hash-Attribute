@@ -37,6 +37,9 @@ tie my %tr_tag, 'Tie::Hash::Attribute';
 %tr_tag = ( style => { color => [qw(red blue green)] } );
 print scalar %tr_tag;
   # style="align: right; color: red;"
+  # style="align: right; color: blue;"
+  # style="align: right; color: green;"
+  # style="align: right; color: red;"
 ```
 
 Installation

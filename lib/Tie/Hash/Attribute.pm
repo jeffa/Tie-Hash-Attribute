@@ -128,7 +128,10 @@ Tie::Hash::Attribute - Just another HTML attribute generator.
   # or emit all attributes at once
   tie my %tr_tag, 'Tie::Hash::Attribute';
   %tr_tag = ( style => { color => [qw(red blue green)] } );
-  print scalar %tr_tag;
+  print scalar %tr_tag for 1 .. 4;
+    # style="align: right; color: red;"
+    # style="align: right; color: blue;"
+    # style="align: right; color: green;"
     # style="align: right; color: red;"
 
 =head1 DESCRIPTION
