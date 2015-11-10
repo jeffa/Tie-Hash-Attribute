@@ -17,6 +17,7 @@ tie my %tag, 'Tie::Hash::Attribute';
         style => {
             align => [qw( left right )],
             color => [qw( red blue green )],
+        }
     },
 };
  

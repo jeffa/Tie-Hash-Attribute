@@ -110,6 +110,7 @@ Tie::Hash::Attribute - Just another HTML attribute generator.
           style => {
               align => [qw( left right )],
               color => [qw( red blue green )],
+          }
       },
   };
  
