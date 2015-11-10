@@ -112,7 +112,7 @@ Tie::Hash::Attribute - Just another HTML attribute generator.
               color => [qw( red blue green )],
           }
       },
-  };
+  );
  
   print $tag{-table};
     # border: 0

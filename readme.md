@@ -19,7 +19,7 @@ tie my %tag, 'Tie::Hash::Attribute';
             color => [qw( red blue green )],
         }
     },
-};
+);
  
 print $tag{-table};
   # border: 0
