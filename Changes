@@ -1,6 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
 1.03
+    - fix bug tracker location
 
 1.02
     - keys with values of undef are skipped

@@ -25,7 +25,6 @@ WriteMakefile(
             resources => {
                 homepage   => 'https://github.com/jeffa/Tie-Hash-Attribute',
                 repository => 'https://github.com/jeffa/Tie-Hash-Attribute.git',
-                bugtracker => 'https://github.com/jeffa/Tie-Hash-Attribute/issues',
             },
         })
     ),
