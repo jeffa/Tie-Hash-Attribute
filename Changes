@@ -1,6 +1,7 @@
 Revision history for Tie-Hash-Attribute
 
-1.05
+1.06
+    - update copyright date
 
 1.04
     - makefile now specifies explicit v3.69 for HTML::Entities
